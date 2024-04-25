@@ -1,0 +1,34 @@
+# Clear the workspace
+rm(list=ls())
+
+# Load the required library
+library(Hmisc)
+
+# Load the Heart Disease UCI dataset
+data <- read.csv("C:\\Users\\Boss K\\Desktop\\Datasheets\\heart.csv")
+
+# Display summary statistics of the dataset
+describe(data)
+
+# Check summary statistics for 'alcohol' and 'chlorides' columns
+summary(data$alcohol)
+summary(data$chlorides)
+
+# Create 'tolerant' column with adjusted condition
+if ("alcohol" %in% colnames(data) & "chlorides" %in% colnames(data)) {
+  data$tolerant <- as.integer(data$alcohol > 10 & data$chlorides > 0.1)
+} else {
+  print("Required columns not found in the dataset.")
+}
+
+# Check summary statistics of the 'tolerant' column
+summary(data$tolerant)
+
+# Count number of patients meeting the condition
+tolerant_patients <- sum(data$tolerant == 1)
+print(paste("Number of tolerant patients:", tolerant_patients))
+
+# Calculate survival rate or any other relevant metrics based on the 'tolerant' column
+# You can replace this with your desired analysis
+survival_rate <- tolerant_patients / nrow(data)
+print(paste("Survival rate of tolerant patients:", survival_rate))
